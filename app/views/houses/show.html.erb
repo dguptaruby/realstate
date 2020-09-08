@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
-
+<p>
+  <%= image_tag(@house.image[0].url(:thumb), alt: 'Image') if @house.image? %>
+</p>
 <p>
   <strong>Owner:</strong>
   <%= @house.owner %>
@@ -36,4 +38,4 @@
 </p>
 
 <%= link_to 'Edit', edit_house_path(@house) %> |
-<%= link_to 'Back', houses_path %>
+<%= link_to 'Back', root_path %>

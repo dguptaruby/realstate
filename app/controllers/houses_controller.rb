@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class HousesController < ApplicationController
   load_and_authorize_resource
-  skip_before_action :authenticate_user!, :only => [:index]
-  before_action :set_house, only: [:show, :edit, :update, :destroy]
+  skip_before_action :authenticate_user!, only: [:index]
+  before_action :set_house, only: %i[show edit update destroy]
 
   # GET /houses
   # GET /houses.json
@@ -11,8 +13,7 @@ class HousesController < ApplicationController
 
   # GET /houses/1
   # GET /houses/1.json
-  def show
-  end
+  def show; end
 
   # GET /houses/new
   def new
@@ -20,8 +21,7 @@ class HousesController < ApplicationController
   end
 
   # GET /houses/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /houses
   # POST /houses.json
@@ -64,13 +64,14 @@ class HousesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_house
-      @house = House.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def house_params
-      params.require(:house).permit(:owner, :address, :rooms, :sqmt, :floors, :air_cond, :price)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_house
+    @house = House.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def house_params
+    params.require(:house).permit(:owner, :address, :rooms, :sqmt, :floors, :air_cond, :price, image: [])
+  end
 end
