@@ -1,21 +1,24 @@
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li>
-      <li><a href="#">Page 1</a></li>
-      <li><a href="#">Page 2</a></li>
-    </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li><span><%= button_to "Logout", destroy_user_session_path, method: :delete, class: "glyphicon glyphicon-user"  %></span></li>
-      <li><span><%= button_to "Login", new_user_session_path, class: "glyphicon glyphicon-log-in" %></span></li>
+      <% if current_user.present? %>
+        <li><span><%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-primary-lg", style: "margin-right: 20px"  %></span></li>
+      <% else %>
+        <li><span><%= button_to "Login", new_user_session_path, class: "btn btn-primary-lg", style: "margin-right: 20px" %></span></li>
+        <li><span><%= button_to "Sign Up", new_user_registration_path, method: :get, class: "btn btn-primary-lg", style: "margin-right: 20px" %></span></li>
+      <% end %>
     </ul>
   </div>
 </nav>
 
-<h1>Welcome</h1>
+<h1 class="text-center">Welcome To RealState</h1>
 <p id="notice"><%= notice %></p>
-<h1>Houses</h1>
-
+<div>
+  <h1 class="text-left">Houses</h1>
+  <% if current_user.present? && current_user.manager? %>
+    <%= button_to('Add New House', new_house_path, class: 'btn btn-primary', method: :get)  %>
+  <% end %>
+</div>
 <table class=" table table-striped" data-sort-name="name" data-sort-order="desc">
   <thead>
     <tr>
@@ -42,20 +45,19 @@
         <td><%= house.floors %></td>
         <td><%= house.air_cond %></td>
         <td><%= house.price %></td>
-        <td><%= link_to 'Show', house %></td>
-        <td><%= link_to 'Edit', edit_house_path(house) %></td>
-        <td><%= link_to 'Destroy', house, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= button_to 'Show', house, method: :get, class: 'btn btn-info' %></td>
+        <% if current_user.present? && current_user.manager? %>
+          <td><%= button_to 'Edit', edit_house_path(house), method: :get, class: 'btn btn-info' %></td>
+          <td><%= button_to 'Destroy', house, method: :delete, data: { confirm: 'Are you sure?' },class: 'btn btn-danger' %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New House', new_house_path %>
-
 <h1>Complex Buildings</h1>
-
+<% if current_user.present? && current_user.manager? %>
+    <%= button_to('Add Complex Building', new_complex_building_path, class: 'btn btn-primary', method: :get)  %>
+<% end %>
 <table class=" table table-striped" data-sort-name="name" data-sort-order="desc">
   <thead>
     <tr>
@@ -76,20 +78,19 @@
         <td><%= complex_building.units %></td>
         <td><%= complex_building.sqmt %></td>
         <td><%= complex_building.price %></td>
-        <td><%= link_to 'Show', complex_building %></td>
-        <td><%= link_to 'Edit', edit_complex_building_path(complex_building) %></td>
-        <td><%= link_to 'Destroy', complex_building, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', complex_building, method: :get, class: 'btn btn-info'  %></td>
+        <% if current_user.present? && current_user.manager? %>
+          <td><%= link_to 'Edit', edit_complex_building_path(complex_building), method: :get, class: 'btn btn-info'  %></td>
+          <td><%= link_to 'Destroy', complex_building, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'  %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Complex Building', new_complex_building_path %>
-
 <h1>Commercial Units</h1>
-
+<% if current_user.present? && current_user.manager? %>
+    <%= button_to('Add Commercial Unit', new_commercial_unit_path, class: 'btn btn-primary', method: :get)  %>
+<% end %>
 <table class=" table table-striped" data-sort-name="name" data-sort-order="desc">
   <thead>
     <tr>
@@ -112,14 +113,14 @@
         <td><%= commercial_unit.sqmt %></td>
         <td><%= commercial_unit.parking %></td>
         <td><%= commercial_unit.price %></td>
-        <td><%= link_to 'Show', commercial_unit %></td>
-        <td><%= link_to 'Edit', edit_commercial_unit_path(commercial_unit) %></td>
-        <td><%= link_to 'Destroy', commercial_unit, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', commercial_unit, method: :get, class: 'btn btn-info' %></td>
+        <% if current_user.present? && current_user.manager? %>
+          <td><%= link_to 'Edit', edit_commercial_unit_path(commercial_unit), method: :get, class: 'btn btn-info'  %></td>
+          <td><%= link_to 'Destroy', commercial_unit, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'  %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'New Commercial Unit', new_commercial_unit_path %>
